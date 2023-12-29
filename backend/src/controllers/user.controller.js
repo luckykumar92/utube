@@ -115,7 +115,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "User doe not exist");
+    throw new ApiError(404, "User does not exist");
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
@@ -127,6 +127,7 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
 
+  // ############## Login #################
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
@@ -152,6 +153,8 @@ const loginUser = asyncHandler(async (req, res) => {
       )
     );
 });
+
+// ################## Logout ##################
 
 const logOutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
